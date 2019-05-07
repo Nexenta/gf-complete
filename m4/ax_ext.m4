@@ -188,6 +188,24 @@ AC_DEFUN([AX_EXT],
         fi
       ])
 
+
+      AC_ARG_ENABLE([avx], AS_HELP_STRING([--disable-avx], [Build without AVX optimizations]),
+      [
+        if   test "x$enableval" = "xno" ; then
+          ax_cv_have_avx_cpu_ext="no"
+          echo "AVX disabled"
+        fi
+      ])
+
+       AC_CACHE_CHECK([whether avx is supported by processor], [ax_cv_have_avx_cpu_ext],
+       [
+        if test $ax_cv_have_avx_cpu_ext != "no"; then
+          if test "$((0x$ecx>>28&0x01))" = 1; then
+            ax_cv_have_avx_cpu_ext=yes
+          fi
+	fi
+	])
+
       if test x"$ax_cv_have_avx_cpu_ext" = x"yes"; then
         AX_GCC_X86_AVX_XGETBV(0x00000000)
 
